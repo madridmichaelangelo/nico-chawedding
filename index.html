@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nico & Cha — Forever Begins September 26, 2026</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Cormorant Garamond + Jost -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ivory:       '#FDFDF5',
+            'pastel-yellow': '#FDFD96',
+            'yellow-lt': '#FEFEC0',
+            'yellow-dk': '#E8E860',
+            'dusty-blue': '#9BB3C9',
+            'blue-lt':   '#C2D4E4',
+            'blue-dk':   '#6A91B0',
+            'blue-deep': '#2D5070',
+            'warm-gray': '#7A8A96',
+            'deep':      '#1E3040',
+          },
+          fontFamily: {
+            display: ['"Cormorant Garamond"', 'serif'],
+            body:    ['Jost', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* ── Base ── */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Jost', sans-serif;
+      background-color: #FDFDF5;
+      color: #1E3040;
+      overflow-x: hidden;
+    }
+
+    /* ── Typography helpers ── */
+    .font-display { font-family: 'Cormorant Garamond', serif; }
+
+    /* ── Divider ── */
+    .divider {
+      display: flex; align-items: center; gap: 1rem;
+      margin: 1.5rem auto;
+    }
+    .divider::before, .divider::after {
+      content: ''; flex: 1; height: 1px;
+      background: linear-gradient(to right, transparent, #9BB3C9, transparent);
+    }
+    .divider-text { color: #9BB3C9; font-size: 1rem; letter-spacing: .2em; white-space: nowrap; }
+
+    /* ── Fade-in on scroll ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.75s ease, transform 0.75s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Navbar scroll state ── */
+    #navbar { transition: background 0.4s ease, box-shadow 0.4s ease;
+     }
+    #navbar.scrolled {
+      background: rgba(253,253,245,0.97) !important;
+      box-shadow: 0 1px 24px rgba(30,48,64,0.1);
+    }
+    #navbar.scrolled .nav-link { color: #1E3040 !important; }
+    #navbar.scrolled .nav-link::after { background: #9BB3C9 !important; }
+    #navbar.scrolled .nav-logo { color: #1E3040 !important; }
+
+    /* ── Nav link elegant underline ── */
+    .nav-link { position: relative; padding-bottom: 4px; }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      left: 50%; bottom: 0;
+      width: 0; height: 1px;
+      background: #FDFD96;
+      transition: width 0.3s ease, left 0.3s ease;
+    }
+    .nav-link:hover::after { width: 100%; left: 0; }
+
+    /* ── Hero shimmer on ampersand ── */
+    @keyframes shimmer {
+      0%   { background-position: -200% center; }
+      100% { background-position:  200% center; }
+    }
+    .shimmer-text {
+      background: linear-gradient(90deg, #FDFD96 25%, #ffffff 50%, #9BB3C9 75%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 5s linear infinite;
+    }
+
+    /* ── Countdown blocks ── */
+    .countdown-block {
+      background: rgba(253,253,245,0.07);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(155,179,201,0.4);
+      border-radius: 0.75rem;
+      transition: border-color 0.3s ease, background 0.3s ease;
+    }
+    .countdown-block:hover {
+      border-color: rgba(253,253,150,0.5);
+      background: rgba(253,253,245,0.1);
+    }
+
+    /* ── Story timeline line ── */
+    .timeline-line {
+      position: absolute; left: 50%; top: 0; bottom: 0; width: 1px;
+      background: linear-gradient(to bottom, transparent, #9BB3C9 20%, #9BB3C9 80%, transparent);
+      transform: translateX(-50%);
+    }
+
+    /* ── Story milestone cards ── */
+    .story-card {
+      transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+    }
+    .story-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 32px rgba(45,80,112,0.1);
+      border-color: #9BB3C9 !important;
+    }
+
+    /* ── Gallery hover ── */
+    .gallery-item { overflow: hidden; border-radius: 0.75rem; position: relative; }
+    .gallery-item img {
+      transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94), filter 0.6s ease;
+      filter: brightness(0.92) saturate(0.9);
+    }
+    .gallery-item::after {
+      content: '';
+      position: absolute; inset: 0;
+      border: 1px solid rgba(253,253,150,0);
+      border-radius: 0.75rem;
+      transition: border-color 0.5s ease;
+      pointer-events: none;
+    }
+    .gallery-item:hover img { transform: scale(1.06); filter: brightness(1) saturate(1.05); }
+    .gallery-item:hover::after { border-color: rgba(253,253,150,0.6); }
+
+    /* ── Form inputs ── */
+    .form-input {
+      width: 100%;
+      background: rgba(255,255,255,0.75);
+      border: 1px solid #C2D4E4;
+      border-radius: 0.5rem;
+      padding: 0.75rem 1rem;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.9rem;
+      color: #1E3040;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+    .form-input:focus {
+      border-color: #9BB3C9;
+      box-shadow: 0 0 0 3px rgba(155,179,201,0.2);
+    }
+    .form-input::placeholder { color: #9BB3C9; }
+    select.form-input { appearance: none; cursor: pointer; }
+
+    /* ── Primary button (yellow) ── */
+    .btn-primary {
+      background: linear-gradient(135deg, #FDFD96, #FEFEC0);
+      color: #1E3040;
+      font-family: 'Jost', sans-serif;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      padding: 0.85rem 2.5rem;
+      border-radius: 2rem;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s, letter-spacing 0.2s;
+      box-shadow: 0 4px 18px rgba(253,253,150,0.45);
+      display: inline-block;
+      text-decoration: none;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(253,253,150,0.55); letter-spacing: 0.18em; }
+    .btn-primary:active { transform: translateY(0); }
+
+    /* ── Outline button ── */
+    .btn-outline {
+      border: 1px solid rgba(155,179,201,0.7);
+      color: #FDFDF5;
+      font-family: 'Jost', sans-serif;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      padding: 0.85rem 2.5rem;
+      border-radius: 2rem;
+      background: transparent;
+      cursor: pointer;
+      transition: background 0.25s, color 0.25s, transform 0.2s, letter-spacing 0.2s;
+      display: inline-block;
+      text-decoration: none;
+    }
+    .btn-outline:hover { background: rgba(155,179,201,0.15); transform: translateY(-2px); letter-spacing: 0.18em; }
+
+    /* ── Section padding ── */
+    .section { padding: 6rem 1.5rem; }
+
+    /* ── Mobile menu ── */
+    #mobile-menu { transition: max-height 0.35s ease, opacity 0.35s ease; }
+
+    /* ── Map placeholder / embed frame ── */
+    .map-placeholder {
+      background: linear-gradient(135deg, #C2D4E4 0%, #9BB3C9 100%);
+      border-radius: 0.75rem;
+      display: flex; align-items: center; justify-content: center;
+      height: 320px;
+      font-family: 'Cormorant Garamond', serif;
+      color: #2D5070;
+      font-size: 1.1rem;
+      letter-spacing: 0.1em;
+      border: 1px solid #9BB3C9;
+      overflow: hidden;
+    }
+
+    /* ── Success animation ── */
+    @keyframes pop-in {
+      0%   { transform: scale(0); opacity: 0; }
+      70%  { transform: scale(1.15); }
+      100% { transform: scale(1);  opacity: 1; }
+    }
+    .check-circle { animation: pop-in 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+
+    /* ── Leaf / corner ornament decorations ── */
+    .leaf-decor {
+      position: absolute; pointer-events: none; opacity: 0.12;
+      font-size: 8rem; line-height: 1; color: #9BB3C9;
+    }
+    .corner-ornament {
+      position: absolute;
+      width: 56px; height: 56px;
+      border-color: rgba(253,253,150,0.45);
+      pointer-events: none;
+    }
+
+    /* ── Section eyebrow flourish (flanking lines) ── */
+    .eyebrow-flourish {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+    .eyebrow-flourish .line {
+      width: 22px; height: 1px;
+      background: currentColor;
+      opacity: 0.55;
+    }
+
+    /* ── Details cards on blue bg ── */
+    .detail-card {
+      background: rgba(253,253,245,0.1);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(155,179,201,0.3);
+      border-radius: 1rem;
+      transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+    }
+    .detail-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 32px rgba(0,0,0,0.12);
+      border-color: rgba(253,253,150,0.4);
+    }
+
+    /* ── Entourage card flourishes ── */
+    .entourage-card {
+      position: relative;
+      transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+    }
+    .entourage-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.18);
+      border-color: rgba(253,253,150,0.5) !important;
+    }
+    .entourage-card::before,
+    .entourage-card::after {
+      content: "";
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      border-color: #FDFD96;
+      opacity: 0.5;
+      transition: opacity 0.35s ease;
+    }
+    .entourage-card::before {
+      top: 10px; left: 10px;
+      border-top: 1px solid; border-left: 1px solid;
+    }
+    .entourage-card::after {
+      bottom: 10px; right: 10px;
+      border-bottom: 1px solid; border-right: 1px solid;
+    }
+    .entourage-card:hover::before,
+    .entourage-card:hover::after { opacity: 1; }
+
+    .entourage-heading {
+      position: relative;
+      padding-bottom: 14px;
+      margin-bottom: 18px !important;
+    }
+    .entourage-heading::after {
+      content: "";
+      position: absolute;
+      bottom: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 40px; height: 1px;
+      background: #FDFD96;
+      opacity: 0.6;
+    }
+
+    .entourage-icon {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 10px;
+      background: rgba(253,253,150,0.12);
+      border: 1px solid rgba(253,253,150,0.3);
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+    .entourage-card:hover .entourage-icon {
+      background: rgba(253,253,150,0.2);
+      border-color: rgba(253,253,150,0.55);
+    }
+
+    .little-one-card {
+      transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+    }
+    .little-one-card:hover {
+      transform: translateY(-4px);
+      background: rgba(253,253,150,0.07) !important;
+      border-color: rgba(253,253,150,0.4) !important;
+    }
+
+    .entourage-li {
+      transition: color 0.25s ease, letter-spacing 0.25s ease;
+    }
+    .entourage-li:hover {
+      color: #FDFD96 !important;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Attire image frame ── */
+    .attire-frame {
+      transition: box-shadow 0.4s ease, border-color 0.4s ease;
+    }
+    .attire-frame:hover {
+      box-shadow: 0 20px 40px rgba(45,80,112,0.12);
+      border-color: #9BB3C9;
+    }
+
+    /* ── Social icon ring ── */
+    .social-ring {
+      transition: color 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+    }
+    .social-ring:hover { transform: translateY(-3px); }
+
+    /* ══════════════════════════════════════
+       HERO CAROUSEL
+    ══════════════════════════════════════ */
+    #carousel-track {
+      display: flex;
+      transition: transform 0.8s cubic-bezier(0.77,0,0.18,1);
+      will-change: transform;
+    }
+    .carousel-slide {
+      min-width: 100%;
+      height: 100%;
+      position: relative;
+    }
+    .carousel-slide img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      display: block;
+    }
+
+    /* Arrow buttons */
+    .carousel-btn {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      z-index: 20; cursor: pointer;
+      width: 44px; height: 44px;
+      background: rgba(30,48,64,0.45);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(155,179,201,0.5);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: #FDFDF5;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .carousel-btn:hover { background: rgba(30,48,64,0.7); transform: translateY(-50%) scale(1.08); }
+
+    /* Dots */
+    .carousel-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: rgba(253,253,150,0.4);
+      border: 1px solid rgba(253,253,150,0.7);
+      transition: background 0.3s, transform 0.3s;
+      cursor: pointer;
+    }
+    .carousel-dot.active {
+      background: #FDFD96;
+      transform: scale(1.3);
+    }
+
+    /* ── RSVP section bg ── */
+    #rsvp { background: #2D5070; }
+
+    /* ── Meal pill ── */
+    .meal-label { transition: border-color 0.25s ease, color 0.25s ease, background 0.25s ease; }
+
+    /* ── Reduced motion ── */
+    @media (prefers-reduced-motion: reduce) {
+      .fade-up, .gallery-item img, .btn-primary, .btn-outline, .detail-card,
+      .entourage-card, .little-one-card, .story-card, .countdown-block { transition: none !important; }
+    }
+  </style>
+</head>
+
+<body class="bg-ivory text-deep">
+
+  <!-- ══════════════════════════════════════════════
+       NAVBAR
+  ══════════════════════════════════════════════ -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 px-6 py-4 " role="navigation" aria-label="Main navigation">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+      <a href="#home" class="nav-logo font-display text-2xl italic text-white tracking-wide" aria-label="Home">N &amp; C</a>
+
+      <ul class="hidden md:flex items-center gap-8 list-none">
+        <li><a href="#home"   class="nav-link text-white/80 hover:text-pastel-yellow text-xs tracking-[0.18em] uppercase font-body transition-colors">Home</a></li>
+        <li><a href="#story"   class="nav-link text-white/80 hover:text-pastel-yellow text-xs tracking-[0.18em] uppercase font-body transition-colors">Our Story</a></li>
+        <li><a href="#details" class="nav-link text-white/80 hover:text-pastel-yellow text-xs tracking-[0.18em] uppercase font-body transition-colors">Wedding Details</a></li>
+        <li><a href="#gallery" class="nav-link text-white/80 hover:text-pastel-yellow text-xs tracking-[0.18em] uppercase font-body transition-colors">Prenup Shoots</a></li>
+        <li><a href="#rsvp" class="btn-primary text-deep text-xs">RSVP</a></li>
+      </ul>
+
+      <button id="menu-btn" class="md:hidden text-warm-gray focus:outline-none" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
+        <svg id="icon-open"  class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5"/></svg>
+        <svg id="icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <div id="mobile-menu" class="md:hidden max-h-0 overflow-hidden " >
+      <ul class="bg-ivory/97 mt-2 rounded-xl px-6 py-4 flex flex-col gap-4 shadow-lg list-none">
+         <li><a href="#home"   class="text-deep/70 hover:text-dusty-blue text-xs tracking-[0.18em] uppercase block py-1 transition-colors" onclick="closeMobileMenu()">Home</a></li>
+        <li><a href="#story"   class="text-deep/70 hover:text-dusty-blue text-xs tracking-[0.18em] uppercase block py-1 transition-colors" onclick="closeMobileMenu()">Our Story</a></li>
+        <li><a href="#details" class="text-deep/70 hover:text-dusty-blue text-xs tracking-[0.18em] uppercase block py-1 transition-colors" onclick="closeMobileMenu()">Wedding Details</a></li>
+        <li><a href="#gallery" class="text-deep/70 hover:text-dusty-blue text-xs tracking-[0.18em] uppercase block py-1 transition-colors" onclick="closeMobileMenu()">Prenup Shoots</a></li>
+        <li><a href="#rsvp"    class="text-deep/70 hover:text-dusty-blue text-xs tracking-[0.18em] uppercase block py-1 transition-colors" onclick="closeMobileMenu()">RSVP</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ══════════════════════════════════════════════
+       HERO SECTION — with 5-image carousel
+  ══════════════════════════════════════════════ -->
+  <section id="home" class="relative flex items-center justify-center min-h-screen overflow-hidden">
+
+    <!-- ── Carousel ── -->
+    <div id="carousel-wrap" class="absolute inset-0 overflow-hidden">
+      <div id="carousel-track" class="h-full">
+
+        <div class="carousel-slide">
+          <img src="images/near_blackboard.jpg?w=1600&auto=format&fit=crop&q=80" alt="Nico and Cha" />
+        </div>
+        <div class="carousel-slide">
+          <img src="images/outside_school_casual.jpg?w=1600&auto=format&fit=crop&q=80" alt="Couple in a wildflower field" />
+        </div>
+        <div class="carousel-slide">
+          <img src="images/outside_school.jpg?w=1600&auto=format&fit=crop&q=80" alt="Engagement photo" />
+        </div>
+        <div class="carousel-slide">
+          <img src="images/wedding_gown.jpg?w=1600&auto=format&fit=crop&q=80" alt="Romantic stroll" />
+        </div>
+        <div class="carousel-slide">
+          <img src="images/wedding_gown2.jpg?w=1600&auto=format&fit=crop&q=80" alt="Couple by the water" />
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Gradient overlay -->
+    <div class="absolute inset-0 bg-gradient-to-b from-black/55 via-black/25 to-black/65 z-10"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-blue-deep/50 to-transparent z-10"></div>
+
+    <!-- Corner ornaments -->
+    <div class="corner-ornament hidden md:block z-20" style="top:28px; left:28px; border-top:1px solid; border-left:1px solid;"></div>
+    <div class="corner-ornament hidden md:block z-20" style="bottom:28px; right:28px; border-bottom:1px solid; border-right:1px solid;"></div>
+
+    <!-- Carousel arrow buttons -->
+    <button id="carousel-prev" class="carousel-btn left-4 md:left-8 z-20" aria-label="Previous photo">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/></svg>
+    </button>
+    <button id="carousel-next" class="carousel-btn right-4 md:right-8 z-20" aria-label="Next photo">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
+    </button>
+
+    <!-- Carousel dots (hidden, kept for JS hook compatibility)
+    <div id="carousel-dots" class="absolute bottom-24 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+      <button class="carousel-dot active" aria-label="Slide 1"></button>
+      <button class="carousel-dot" aria-label="Slide 2"></button>
+      <button class="carousel-dot" aria-label="Slide 3"></button>
+      <button class="carousel-dot" aria-label="Slide 4"></button>
+      <button class="carousel-dot" aria-label="Slide 5"></button>
+    </div>-->
+
+    <!-- Hero content -->
+    <div class="relative z-20 text-center px-6 max-w-3xl mx-auto">
+      <p class="font-body text-white/70 tracking-[0.3em] text-xs uppercase mb-6 fade-up">&ldquo;Two teachers, one forever. We have finally found a lesson plan that lasts a lifetime.&rdquo;</p>
+
+      <h1 class="font-display text-7xl md:text-8xl lg:text-9xl font-light text-white leading-none mb-2">Nicomedes</h1>
+      <div class="flex items-center justify-center gap-4 my-2">
+        <div class="h-px w-16" style="background:rgba(155,179,201,0.6)"></div>
+        <span class="shimmer-text font-display text-3xl italic">&amp;</span>
+        <div class="h-px w-16" style="background:rgba(155,179,201,0.6)"></div>
+      </div>
+      <h1 class="font-display text-7xl md:text-8xl lg:text-9xl font-light text-white leading-none mb-10">Charish</h1>
+
+      <p class="font-body text-white/85 tracking-[0.2em] text-sm mb-1">SATURDAY, SEPTEMBER 26, 2026</p>
+      <p class="font-body text-white/60 tracking-widest text-xs mb-10">Riverbank Garden Events · 3:00 PM</p>
+
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="#rsvp" class="btn-primary">RSVP Now</a>
+        <a href="#details" class="btn-outline">View Details</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       COUNTDOWN TIMER
+  ══════════════════════════════════════════════ -->
+  <section class="relative py-20 px-6 overflow-hidden" style="background:#2D5070;">
+    <div class="absolute inset-0 opacity-20 pointer-events-none">
+      <div class="absolute top-0 left-1/4 w-80 h-80 rounded-full filter blur-[120px]" style="background:#FDFD96"></div>
+      <div class="absolute bottom-0 right-1/4 w-64 h-64 rounded-full filter blur-[100px]" style="background:#9BB3C9"></div>
+    </div>
+    <div class="relative max-w-3xl mx-auto text-center">
+      <p class="font-body text-xs tracking-[0.3em] uppercase mb-3 fade-up eyebrow-flourish" style="color:#FDFD96">
+        <span class="line"></span>Count Down to Our<span class="line"></span>
+      </p>
+      <h2 class="font-display text-4xl md:text-5xl text-white font-light italic mb-12 fade-up">Wedding Day</h2>
+      <div id="countdown" class="grid grid-cols-4 gap-3 md:gap-6 fade-up">
+        <div class="countdown-block p-4 md:p-6 text-center">
+          <div id="days"    class="font-display text-5xl md:text-6xl text-white font-light">00</div>
+          <div class="font-body text-xs tracking-[0.2em] uppercase mt-2" style="color:rgba(253,253,150,0.7)">Days</div>
+        </div>
+        <div class="countdown-block p-4 md:p-6 text-center">
+          <div id="hours"   class="font-display text-5xl md:text-6xl text-white font-light">00</div>
+          <div class="font-body text-xs tracking-[0.2em] uppercase mt-2" style="color:rgba(253,253,150,0.7)">Hours</div>
+        </div>
+        <div class="countdown-block p-4 md:p-6 text-center">
+          <div id="minutes" class="font-display text-5xl md:text-6xl text-white font-light">00</div>
+          <div class="font-body text-xs tracking-[0.2em] uppercase mt-2" style="color:rgba(253,253,150,0.7)">Minutes</div>
+        </div>
+        <div class="countdown-block p-4 md:p-6 text-center">
+          <div id="seconds" class="font-display text-5xl md:text-6xl text-white font-light">00</div>
+          <div class="font-body text-xs tracking-[0.2em] uppercase mt-2" style="color:rgba(253,253,150,0.7)">Seconds</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       OUR STORY SECTION
+  ══════════════════════════════════════════════ -->
+<section id="story" class="section bg-ivory">
+  <div class="max-w-3xl md:max-w-5xl mx-auto text-center">
+    <p class="font-body text-dusty-blue text-xs tracking-[0.3em] uppercase mb-3 fade-up">How It All Began</p>
+    <h2 class="font-display text-5xl md:text-6xl font-light italic mb-4 fade-up">Our Story</h2>
+    <div class="divider fade-up"><span class="divider-text">✦</span></div>
+    <p class="font-body text-warm-gray text-sm leading-relaxed max-w-xl mx-auto mb-16 fade-up">
+      From a chance meeting to a promise of forever, here are some quick but memorable moments that brought us to this day.
+    </p>
+
+    <div class="relative">
+      <!-- Vertical line: one element, one position rule per breakpoint -->
+      <div class="absolute left-6 md:left-1/2 top-0 bottom-0 w-px -translate-x-1/2" style="background:#C2D4E4"></div>
+
+      <div class="flex flex-col gap-14 md:gap-20">
+
+        <!-- Milestone 1 -->
+        <div class="fade-up relative pl-16 md:pl-0 md:flex md:justify-center">
+          <!-- One marker, repositioned per breakpoint -->
+          <div class="absolute left-6 md:left-1/2 top-8 md:top-10 w-4 h-4 rounded-full border-4 border-ivory shadow-md z-10 -translate-x-1/2 lg:hidden" style="background:#9BB3C9"></div>
+
+          <div class="story-card bg-white rounded-2xl shadow-sm overflow-hidden text-left w-full max-w-md md:max-w-2xl">
+            <div class="md:flex md:items-stretch">
+              <img
+                src="images/story1.jfif"
+                alt="The First Hello"
+                class="w-full h-48 md:h-auto md:w-2/5 object-cover"
+              >
+              <div class="px-8 py-6 md:px-10 md:py-8 md:w-3/5 md:flex md:flex-col md:justify-center">
+                <p class="font-body text-dusty-blue text-xs md:text-sm tracking-[0.2em] uppercase mb-1 md:mb-2">October 2017</p>
+                <h3 class="font-display text-2xl md:text-3xl font-medium mb-2 md:mb-3">The First Hello</h3>
+                <p class="font-body text-warm-gray text-sm md:text-base leading-relaxed">
+                  We first met during our Mathematics Wizards Society's General Assembly. At the time, I only knew Cha as the girl who captivated everyone with her dance presentation. After the assembly, we became friends, and as the days passed, my admiration for her grew deeper.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Milestone 2 -->
+        <div class="fade-up relative pl-16 md:pl-0 md:flex md:justify-center">
+          <div class="absolute left-6 md:left-1/2 top-8 md:top-10 w-4 h-4 rounded-full border-4 border-ivory shadow-md z-10 -translate-x-1/2 lg:hidden" style="background:#9BB3C9"></div>
+
+          <div class="story-card bg-white rounded-2xl shadow-sm overflow-hidden text-left w-full max-w-md md:max-w-2xl">
+            <div class="md:flex md:items-stretch">
+              <img
+                src="images/story3.jfif"
+                alt="A Promise Made"
+                class="w-full h-48 md:h-auto md:w-2/5 object-cover"
+              >
+              <div class="px-8 py-6 md:px-10 md:py-8 md:w-3/5 md:flex md:flex-col md:justify-center">
+                <p class="font-body text-dusty-blue text-xs md:text-sm tracking-[0.2em] uppercase mb-1 md:mb-2">July 8, 2021</p>
+                <h3 class="font-display text-2xl md:text-3xl font-medium mb-2 md:mb-3">A Promise Made</h3>
+                <p class="font-body text-warm-gray text-sm md:text-base leading-relaxed">
+                  There were a few attempts at courtship along the way, but our love story needed more time to unfold. In December 2020, I officially courted her with sincere intentions — and after months of patience, prayers, and perseverance, she said yes on my birthday, the most unforgettable gift I could ever receive.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Milestone 3 -->
+        <div class="fade-up relative pl-16 md:pl-0 md:flex md:justify-center">
+          <div class="absolute left-6 md:left-1/2 top-8 md:top-10 w-4 h-4 rounded-full border-4 border-ivory shadow-md z-10 -translate-x-1/2 lg:hidden" style="background:#9BB3C9"></div>
+
+          <div class="story-card bg-white rounded-2xl shadow-sm overflow-hidden text-left w-full max-w-md md:max-w-2xl">
+            <div class="md:flex md:items-stretch">
+              <img
+                src="images/story4.jfif"
+                alt="A Promise of Forever"
+                class="w-full h-48 md:h-auto md:w-2/5 object-cover"
+              >
+              <div class="px-8 py-6 md:px-10 md:py-8 md:w-3/5 md:flex md:flex-col md:justify-center">
+                <p class="font-body text-dusty-blue text-xs md:text-sm tracking-[0.2em] uppercase mb-1 md:mb-2">August 2, 2025</p>
+                <h3 class="font-display text-2xl md:text-3xl font-medium mb-2 md:mb-3">A Promise of Forever</h3>
+                <p class="font-body text-warm-gray text-sm md:text-base leading-relaxed">
+                  At the beautiful Riverfront Garden Resort in Maragondon, Cavite, surrounded by the serenity of the moment and years of memories we'd built together, I asked the love of my life to marry me. She said yes once again.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- ══════════════════════════════════════════════
+       EVENT DETAILS
+  ══════════════════════════════════════════════ -->
+  <section id="details" class="section" style="background:#2D5070;">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-16">
+        <p class="font-body text-xs tracking-[0.3em] uppercase mb-3 fade-up" style="color:#FDFD96">Join Us</p>
+        <h2 class="font-display text-5xl md:text-6xl font-light italic text-white fade-up">Wedding Details</h2>
+        <div class="divider fade-up" style="--tw-divide-color:white">
+          <span class="font-body" style="color:#FDFD96; font-size:1rem; letter-spacing:.2em">✦</span>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6 mb-12">
+
+        <!-- Ceremony -->
+        <div class="fade-up detail-card p-8 text-center">
+          <div class="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4" style="background:rgba(253,253,150,0.15)">
+            <svg class="w-6 h-6" style="color:#FDFD96" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636"/></svg>
+          </div>
+          <h3 class="font-display text-2xl font-medium text-white mb-1">Ceremony</h3>
+          <p class="font-body text-xs tracking-widest uppercase mb-3" style="color:#FDFD96">3:00 PM</p>
+          <p class="font-body text-white/70 text-sm leading-relaxed">
+            Riverbank Garden Events<br/>130 Don P. Campos Avenue<br/>San Agustin 2, Dasmariñas, Cavite
+          </p>
+        </div>
+
+        <!-- Reception -->
+        <div class="fade-up detail-card p-8 text-center" style="transition-delay:0.1s">
+          <div class="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4" style="background:rgba(253,253,150,0.15)">
+            <svg class="w-6 h-6" style="color:#FDFD96" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09Z"/></svg>
+          </div>
+          <h3 class="font-display text-2xl font-medium text-white mb-1">Reception</h3>
+          <p class="font-body text-xs tracking-widest uppercase mb-3" style="color:#FDFD96">6:00 PM – Midnight</p>
+          <p class="font-body text-white/70 text-sm leading-relaxed">
+            Riverbank Garden Events<br/>130 Don P. Campos Avenue<br/>San Agustin 2, Dasmariñas, Cavite
+          </p>
+        </div>
+
+        <!-- Dress Code -->
+        <div class="fade-up detail-card p-8 text-center" style="transition-delay:0.2s">
+          <div class="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4" style="background:rgba(253,253,150,0.15)">
+            <svg class="w-6 h-6" style="color:#FDFD96" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"/></svg>
+          </div>
+          <h3 class="font-display text-2xl font-medium text-white mb-1">Attire</h3>
+          <p class="font-body text-xs tracking-widest uppercase mb-3" style="color:#FDFD96">Elegant · Simple · Classic</p>
+          <p class="font-body text-white/70 text-sm leading-relaxed">
+            Guests are encouraged to wear pale yellow or pale blue. Please refer to the guide below for more details.
+          </p>
+        </div>
+      </div>
+
+      <!-- Map embed -->
+      <div class="fade-up">
+        <div class="map-placeholder rounded-2xl">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3337.367556927796!2d120.93876489678956!3d14.31666430000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397d53cecba221d%3A0x1c0b7b1f96085dff!2sRiverbank%20Garden%20Events!5e1!3m2!1sen!2sph!4v1782389131552!5m2!1sen!2sph"
+            class="w-full h-full border-0"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+      </div>
+    </div>
+
+
+  <!-- ══════════════════════════════════════════════
+      Wedding timeline
+  ══════════════════════════════════════════════ -->
+
+  </section>
+
+    <section id="attire" class="section bg-ivory" style="background:#2D5070;">
+    <div class="max-w-5xl mx-auto text-center">
+      <p class="font-body text-dusty-blue text-xs tracking-[0.3em] uppercase mb-3 fade-up">Wedding Timeline</p>
+      
+      <div class="divider fade-up"><span class="divider-text">✦</span></div>
+    
+
+      <div class="fade-up attire-frame rounded-2xl overflow-hidden shadow-sm" style="border:1px solid #C2D4E4;">
+        <img
+          src="images/weddingtimeline.jfif"
+          alt="Wedding attire guide showing the elegant, simple, classic color palette for guests, sponsors, and entourage"
+          class="w-full h-auto block"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       FULL ATTIRE GUIDE
+  ══════════════════════════════════════════════ -->
+  <section id="attire" class="section bg-ivory">
+    <div class="max-w-5xl mx-auto text-center">
+      <p class="font-body text-dusty-blue text-xs tracking-[0.3em] uppercase mb-3 fade-up">What to Wear</p>
+      
+      <div class="divider fade-up"><span class="divider-text">✦</span></div>
+      <p class="font-body text-warm-gray text-sm leading-relaxed max-w-xl mx-auto mb-12 fade-up">
+   Here's a guide to help you choose the perfect look for our celebration.
+      </p>
+
+      <div class="fade-up attire-frame rounded-2xl overflow-hidden shadow-sm" style="border:1px solid #C2D4E4;">
+        <img
+          src="images/attire.jfif"
+          alt="Wedding attire guide showing the elegant, simple, classic color palette for guests, sponsors, and entourage"
+          class="w-full h-auto block"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  </section>
+
+  <section id="reminders" class="section bg-ivory">
+  <div class="max-w-2xl mx-auto text-center">
+    <p class="font-body text-dusty-blue text-xs tracking-[0.3em] uppercase mb-3 fade-up">Wedding Reminders</p>
+
+    <div class="divider fade-up "><span class="divider-text">✦</span></div>
+
+    <div class="fade-up mt-14 text-left story-card bg-white rounded-2xl shadow-sm px-8 py-8">
+      <p class="font-display text-4xl md:text-5xl italic font-light mb-8">
+        Dear family and friends,
+      </p>
+
+      <p class="font-body text-warm-gray text-base leading-loose mb-8">
+        Thank you for celebrating our special day with us. To help make our wedding smooth and enjoyable for everyone, please take note of the following.
+      </p>
+
+      <p class="font-body text-warm-gray text-base leading-loose mb-8">
+        The program starts promptly at <span class="font-display italic " style="color:#2D5070" style="color:#2D5070"><b>3:00 PM</b></span> — please arrive early so you won't miss the ceremony.
+      </p>
+
+      <p class="font-body text-warm-gray text-base leading-loose mb-8">
+        As much as we love your little ones, we kindly ask that this be an <span class="font-display italic " style="color:#2D5070"><b>adults-only</b></span> celebration, so everyone can fully enjoy the event.
+      </p>
+
+      <p class="font-body text-warm-gray text-base leading-loose mb-8">
+        Your presence is truly our greatest gift. However, if you wish to bless us further, a <span class="font-display italic " style="color:#2D5070"><b>monetary gift</b></span> would be sincerely appreciated as we begin our new journey together.
+      </p>
+
+      <p class="font-body text-warm-gray text-base leading-loose mb-8">
+        Feel free to <span class="font-display italic" style="color:#2D5070"><b>capture the memories</b></span> — take photos and videos throughout the celebration, and don't forget to tag us and share the love.
+      </p>
+
+      <p class="font-body text-warm-gray text-base leading-loose mb-10">
+        Thank you for your understanding and cooperation. We can't wait to celebrate with you!
+      </p>
+
+       <div class="fade-up text-left">
+      <p class="font-body text-dusty-blue text-xs tracking-[0.2em] uppercase mb-3">With love</p>
+      <p class="font-display text-4xl md:text-5xl italic font-light mb-3">Nico &amp; Cha</p>
+      <p class="font-body text-warm-gray text-xs tracking-[0.15em] uppercase">September 26, 2026</p>
+    </div>
+    </div>
+
+    <div class="fade-up divider mb-8"><span class="divider-text">✦</span></div>
+
+   
+  </div>
+</section>
+
+  <!-- ══════════════════════════════════════════════
+       ENTOURAGE
+  ══════════════════════════════════════════════ -->
+  <section id="entourage" class="section" style="background:#2D5070;">
+    <div class="max-w-5xl mx-auto text-center">
+      <p class="font-body text-xs tracking-[0.3em] uppercase mb-3 fade-up" style="color:#FDFD96">With Love &amp; Gratitude</p>
+      <h2 class="font-display text-5xl md:text-6xl font-light italic text-white mb-4 fade-up">Our Entourage</h2>
+      <div class="divider fade-up" style="--tw-divide-color:white">
+        <span class="font-body" style="color:#FDFD96; font-size:1rem; letter-spacing:.2em">✦</span>
+      </div>
+      <p class="font-body text-white/70 text-sm leading-relaxed max-w-xl mx-auto mb-16 fade-up">
+        To everyone standing beside us on this day — thank you for being part of our story.
+      </p>
+
+      <!-- Officiant -->
+      <div class="fade-up mb-14">
+        <div class="inline-block" style="position:relative; padding:0 28px;">
+          <span style="position:absolute; left:0; top:50%; width:18px; height:1px; background:#FDFD96; opacity:0.6;"></span>
+          <span style="position:absolute; right:0; top:50%; width:18px; height:1px; background:#FDFD96; opacity:0.6;"></span>
+          <p class="font-body text-xs tracking-[0.2em] uppercase mb-2" style="color:#FDFD96">Officiant</p>
+          <p class="font-display text-2xl italic text-white">Pastor Cesar "Toto" Gustilo, Jr.</p>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6 mb-12 ">
+
+        <!-- Groom's Men -->
+        <div class="fade-up  ep-8  text-center" >
+     
+          <h3 class="font-display text-xl font-medium text-white text-center entourage-heading" style="color:#FDFD96">Groomsmen</h3>
+          <ul class="font-body text-white/70 text-sm leading-loose space-y-1">
+            <li class="entourage-li"> Isiah Pritz Campos &mdash; <span style="color:#FDFD96">Best Man </span></li>
+            <li class="entourage-li">John Paul Cerezo</li>
+            <li class="entourage-li">Arvin Josiah Dela Cruz</li>
+            <li class="entourage-li">Michael Madrid</li>
+            <li class="entourage-li">Kimuel Diaz</li>
+            <li class="entourage-li">Eric James Mase</li>
+            <li class="entourage-li">Lester John Quintos</li>
+          </ul>
+        </div>
+
+        <!-- Bridesmaids and Bridesmen -->
+        <div class="fade-up ep-8   text-center" >
+        
+          <h3 class="font-display text-xl font-medium text-white text-center entourage-heading" style="color:#FDFD96">Bridesmaids &amp; Bridesmen</h3>
+          <ul class="font-body text-white/70 text-sm leading-loose space-y-1">
+            <li class="entourage-li"> Hanna May Rosales <span style="color:#FDFD96"> &mdash; Maid of Honor </span></li>
+            <li class="entourage-li">Lawrence Palen</li>
+            <li class="entourage-li">Trista Magdaraog</li>
+            <li class="entourage-li">Jennylyn Selga</li>
+            <li class="entourage-li">Ma. Lhoravel Emerenciana</li>
+            <li class="entourage-li">Vanessa Catherine Belgado</li>
+            <li class="entourage-li">Joshua Martinez</li>
+            <li class="entourage-li">Emmanuel Oscar Abeleda</li>
+          </ul>
+        </div>
+
+        <!-- Ninongs -->
+        <div class="fade-up  p-8 text-center">
+       
+          <h3 class="font-display text-xl font-medium text-white text-center entourage-heading" style="color:#FDFD96">Ninongs</h3>
+          
+            <ul class="font-body text-white/70 text-sm leading-loose">
+              <li class="entourage-li">Leo M. Catedrilla</li>
+              <li class="entourage-li">Joseph Nietes</li>
+              <li class="entourage-li">Jomarie Catedrilla</li>
+              <li class="entourage-li">Romnick Catedrilla</li>
+            </ul>
+            <ul class="font-body text-white/70 text-sm leading-loose">
+              <li class="entourage-li">Jordan Del Mundo</li>
+              <li class="entourage-li">Celestino Banlaygas</li>
+              <li class="entourage-li">Roden Samson</li>
+              <li class="entourage-li">Simon Paller</li>
+            </ul>
+       
+        </div>
+
+        <!-- Ninangs -->
+        <div class="fade-up p-8 text-center" >
+     
+          <h3 class="font-display text-xl font-medium text-white text-center entourage-heading" style="color:#FDFD96">Ninangs</h3>
+       
+            <ul class="font-body text-white/70 text-sm leading-loose">
+              <li class="entourage-li">Ladivina Leopando</li>
+              <li class="entourage-li">Myradel Nietes</li>
+              <li class="entourage-li">Anniely Rosales</li>
+              <li class="entourage-li">Katherine Gaza</li>
+            </ul>
+            <ul class="font-body text-white/70 text-sm leading-loose">
+              <li class="entourage-li">Arlyn Del Mundo</li>
+              <li class="entourage-li">Flerida Amor Subay</li>
+              <li class="entourage-li">Maria Josefina Elsa Adelante</li>
+              <li class="entourage-li">Jessamine Paller</li>
+            </ul>
+       
+        </div>
+      </div>
+
+      <!-- Little Ones -->
+      <div class="fade-up">
+        <h3 class="font-display text-xl font-medium text-white mb-2 entourage-heading" style="display:inline-block">Our Little Ones</h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-6 ">
+          <div class="entourage-li p-6">
+            <p class="font-body text-xs tracking-widest uppercase mb-1" style="color:#FDFD96">Ring Bearer</p>
+            <p class="font-body text-white text-sm">Jaben Blake Britania</p>
+          </div>
+          <div class="entourage-li  p-6" >
+            <p class="font-body text-xs tracking-widest uppercase mb-1" style="color:#FDFD96">Coin/Cord Bearer</p>
+            <p class="font-body text-white text-sm">Myrrh Emmanuel Bacay</p>
+          </div>
+     <div class="entourage-li  p-6" >
+            <p class="font-body text-xs tracking-widest uppercase mb-1" style="color:#FDFD96">Bible Bearer</p>
+            <p class="font-body text-white text-sm">Hezekiah Pabunan</p>
+          </div>
+           <div class="entourage-li  p-6" >
+            <p class="font-body text-xs tracking-widest uppercase mb-1" style="color:#FDFD96">Flower Girls</p>
+            <p class="font-body text-white text-sm">Zeinnah Khaye Sapio<br/>Zeibrielle Ellise Sapio</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       PHOTO GALLERY
+  ══════════════════════════════════════════════ -->
+  <section id="gallery" class="section bg-ivory">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16">
+        <p class="font-body text-dusty-blue text-xs tracking-[0.3em] uppercase mb-3 fade-up">Captured Moments</p>
+        <h2 class="font-display text-5xl md:text-6xl font-light italic fade-up">Prenup Shoots</h2>
+        <div class="divider fade-up"><span class="divider-text">✦</span></div>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-4 fade-up">
+        <div class="gallery-item aspect-[3/4] shadow-sm">
+          <img src="images/3.jpg?w=600&auto=format&fit=crop&q=75" alt="Nico and Cha" class="w-full h-full object-cover" />
+        </div>
+        <div class="gallery-item md:col-span-2 aspect-video shadow-sm">
+          <img src="images/8.jpg?w=900&auto=format&fit=crop&q=75" alt="Nico and Cha" class="w-full h-full object-cover" />
+        </div>
+        <div class="gallery-item md:col-span-2 aspect-video shadow-sm">
+          <img src="images/9.jpg?w=900&auto=format&fit=crop&q=75" alt="Couple engagement photo" class="w-full h-full object-cover" />
+        </div>
+        <div class="gallery-item aspect-[3/4] shadow-sm">
+          <img src="images/4.jpg?w=600&auto=format&fit=crop&q=75" alt="Romantic moment" class="w-full h-full object-cover" />
+        </div>
+        <div class="gallery-item aspect-square shadow-sm">
+          <img src="images/2.jpg?w=600&auto=format&fit=crop&q=75" alt="Wedding rings" class="w-full h-full object-cover" />
+        </div>
+        <div class="gallery-item aspect-square shadow-sm">
+          <img src="images/1.jpg?w=600&auto=format&fit=crop&q=75" alt="Wedding celebration" class="w-full h-full object-cover" />
+        </div>
+        <div class="gallery-item aspect-square shadow-sm">
+          <img src="images/7.jpg?w=600&auto=format&fit=crop&q=75" alt="Bouquet" class="w-full h-full object-cover" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       RSVP FORM
+  ══════════════════════════════════════════════ -->
+  <section id="rsvp" class="section relative overflow-hidden">
+    <div class="absolute inset-0 opacity-20 pointer-events-none">
+      <div class="absolute -top-20 -left-20 w-96 h-96 rounded-full filter blur-[140px]" style="background:#FDFD96"></div>
+      <div class="absolute -bottom-20 -right-20 w-80 h-80 rounded-full filter blur-[120px]" style="background:#9BB3C9"></div>
+    </div>
+
+    <div class="relative max-w-2xl mx-auto">
+      <div class="text-center mb-12">
+        <p class="font-body text-xs tracking-[0.3em] uppercase mb-3 fade-up" style="color:#FDFD96">Kindly Reply By August 1, 2026</p>
+        <h2 class="font-display text-5xl md:text-6xl font-light italic text-white fade-up">RSVP</h2>
+        <div class="divider fade-up" style="">
+          <span style="color:#9BB3C9; font-size:1rem; letter-spacing:.2em">✦</span>
+        </div>
+        <p class="font-body text-white/60 text-sm fade-up">We'd be honoured to have you celebrate with us.</p>
+      </div>
+
+      <div id="rsvp-form-wrap" class="rounded-3xl p-8 md:p-12 fade-up" style="background:rgba(255,255,255,0.07); backdrop-filter:blur(8px); border:1px solid rgba(155,179,201,0.25)">
+        <form id="rsvp-form" novalidate>
+
+          <div class="grid md:grid-cols-2 gap-5 mb-5">
+            <div>
+              <label for="fullname" class="block font-body text-white/70 text-xs tracking-[0.15em] uppercase mb-2">Full Name <span style="color:#FDFD96">*</span></label>
+              <input type="text" id="fullname" name="fullname" class="form-input" placeholder="Your full name" autocomplete="name" required />
+              <p class="error-msg hidden text-xs mt-1 font-body" style="color:#FDFD96">Please enter your name.</p>
+            </div>
+            <div>
+              <label for="email" class="block font-body text-white/70 text-xs tracking-[0.15em] uppercase mb-2">Email Address <span style="color:#FDFD96">*</span></label>
+              <input type="email" id="email" name="email" class="form-input" placeholder="your@email.com" autocomplete="email" required />
+              <p class="error-msg hidden text-xs mt-1 font-body" style="color:#FDFD96">Please enter a valid email.</p>
+            </div>
+          </div>
+
+          <div class="grid gap-5 mb-5">
+            <div>
+              <label for="attendance" class="block font-body text-white/70 text-xs tracking-[0.15em] uppercase mb-2">Attending? <span style="color:#FDFD96">*</span></label>
+              <div class="relative">
+                <select id="attendance" name="attendance" class="form-input pr-8" required>
+                  <option value="">Please select…</option>
+                  <option value="yes">Yes! Looking forward to celebrating with you guys!</option>
+                  <option value="no">Regretfully Declines</option>
+                </select>
+                <svg class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-warm-gray pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
+              </div>
+              <p class="error-msg hidden text-xs mt-1 font-body" style="color:#FDFD96">Please select an option.</p>
+            </div>
+            
+          </div>
+
+        
+
+          <div class="mb-8">
+            <label for="message" class="block font-body text-white/70 text-xs tracking-[0.15em] uppercase mb-2">Message to the Couple</label>
+            <textarea id="message" name="message" rows="4" class="form-input resize-none" placeholder="Share your wishes, a favourite memory or even a song requests?…"></textarea>
+          </div>
+
+          <div class="text-center">
+            <button type="submit" class="btn-primary w-full sm:w-auto">Send RSVP</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Success state -->
+      <div id="rsvp-success" class="hidden text-center py-12 fade-up">
+        <div class="check-circle w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6" style="background:rgba(155,179,201,0.2); border:2px solid #9BB3C9">
+          <svg class="w-10 h-10 text-dusty-blue" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>
+        </div>
+        <h3 class="font-display text-4xl italic text-white mb-3">Thank You!</h3>
+        <p class="font-body text-white/60 text-sm leading-relaxed max-w-sm mx-auto">
+          Your RSVP has been received. We are so excited to celebrate with you on our special day.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════════ -->
+  <footer class="bg-ivory py-16 px-6 relative" style="border-top:1px solid #C2D4E4">
+    <div class="max-w-2xl mx-auto text-center">
+      <div class="inline-flex items-center justify-center w-20 h-20 rounded-full mb-4 fade-up" style="border:1px solid #C2D4E4">
+        <span class="font-display text-3xl italic" style="color:#9BB3C9">N&amp;C</span>
+      </div>
+      <p class="font-body text-warm-gray text-xs tracking-[0.3em] uppercase mb-8 fade-up">September 26, 2026 · Riverbank Garden Events</p>
+      <p class="font-display text-2xl font-light italic mb-8 fade-up" style="color:#2D5070; opacity:0.8">
+        &ldquo;A great love is a journey with no return ticket.&rdquo;
+      </p>
+      <div class="divider fade-up"><span class="divider-text">✦</span></div>
+
+      <div class="flex justify-center gap-6 mt-8 mb-10 fade-up">
+        <a href="#" aria-label="Instagram" class="social-ring w-10 h-10 rounded-full flex items-center justify-center text-warm-gray" style="border:1px solid #C2D4E4" onmouseover="this.style.color='#9BB3C9';this.style.borderColor='#9BB3C9'" onmouseout="this.style.color='';this.style.borderColor='#C2D4E4'">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </a>
+        <a href="#" aria-label="Facebook" class="social-ring w-10 h-10 rounded-full flex items-center justify-center text-warm-gray" style="border:1px solid #C2D4E4" onmouseover="this.style.color='#9BB3C9';this.style.borderColor='#9BB3C9'" onmouseout="this.style.color='';this.style.borderColor='#C2D4E4'">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </a>
+        <a href="mailto:eleanor.james.wedding@example.com" aria-label="Email" class="social-ring w-10 h-10 rounded-full flex items-center justify-center text-warm-gray" style="border:1px solid #C2D4E4" onmouseover="this.style.color='#9BB3C9';this.style.borderColor='#9BB3C9'" onmouseout="this.style.color='';this.style.borderColor='#C2D4E4'">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"/></svg>
+        </a>
+      </div>
+
+      <p class="font-body text-xs tracking-widest" style="color:rgba(122,138,150,0.5)">
+        With love &amp; gratitude · Nico &amp; Cha · 2026
+      </p>
+    </div>
+  </footer>
+
+  <!-- ══════════════════════════════════════════════
+       JAVASCRIPT
+  ══════════════════════════════════════════════ -->
+  <script>
+    /* 1. NAVBAR — scroll state */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    /* 2. MOBILE MENU */
+    const menuBtn    = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const iconOpen   = document.getElementById('icon-open');
+    const iconClose  = document.getElementById('icon-close');
+    let menuOpen = false;
+
+    menuBtn.addEventListener('click', () => {
+      menuOpen = !menuOpen;
+      menuBtn.setAttribute('aria-expanded', menuOpen);
+      if (menuOpen) {
+        mobileMenu.style.maxHeight = mobileMenu.scrollHeight + 'px';
+        mobileMenu.style.opacity = '1';
+        iconOpen.classList.add('hidden');
+        iconClose.classList.remove('hidden');
+      } else { closeMobileMenu(); }
+    });
+
+    function closeMobileMenu() {
+      menuOpen = false;
+      menuBtn.setAttribute('aria-expanded', false);
+      mobileMenu.style.maxHeight = '0';
+      mobileMenu.style.opacity = '0';
+      iconOpen.classList.remove('hidden');
+      iconClose.classList.add('hidden');
+    }
+
+    /* 3. HERO CAROUSEL */
+    const track     = document.getElementById('carousel-track');
+    const dots      = document.querySelectorAll('.carousel-dot');
+    const prevBtn   = document.getElementById('carousel-prev');
+    const nextBtn   = document.getElementById('carousel-next');
+    const TOTAL     = 5;
+    let current     = 0;
+    let autoTimer   = null;
+
+    function goTo(index) {
+      current = (index + TOTAL) % TOTAL;
+      track.style.transform = `translateX(-${current * 100}%)`;
+      dots.forEach((d, i) => d.classList.toggle('active', i === current));
+    }
+
+    function startAuto() {
+      clearInterval(autoTimer);
+      autoTimer = setInterval(() => goTo(current + 1), 5000);
+    }
+
+    prevBtn.addEventListener('click', () => { goTo(current - 1); startAuto(); });
+    nextBtn.addEventListener('click', () => { goTo(current + 1); startAuto(); });
+    dots.forEach((dot, i) => dot.addEventListener('click', () => { goTo(i); startAuto(); }));
+
+    const carouselWrap = document.getElementById('carousel-wrap');
+    carouselWrap.addEventListener('mouseenter', () => clearInterval(autoTimer));
+    carouselWrap.addEventListener('mouseleave', startAuto);
+
+    let touchStartX = 0;
+    carouselWrap.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+    carouselWrap.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(dx) > 40) { goTo(dx < 0 ? current + 1 : current - 1); startAuto(); }
+    });
+
+    goTo(0);
+    startAuto();
+
+    /* 4. COUNTDOWN TIMER — September 26, 2026 3:00 PM */
+    const weddingDate = new Date('2026-09-26T15:00:00');
+
+    function pad(n) { return String(n).padStart(2, '0'); }
+
+    function updateCountdown() {
+      const diff = weddingDate - new Date();
+      if (diff <= 0) {
+        ['days','hours','minutes','seconds'].forEach(id => document.getElementById(id).textContent = '00');
+        return;
+      }
+      document.getElementById('days').textContent    = pad(Math.floor(diff / 86400000));
+      document.getElementById('hours').textContent   = pad(Math.floor((diff % 86400000) / 3600000));
+      document.getElementById('minutes').textContent = pad(Math.floor((diff % 3600000)  / 60000));
+      document.getElementById('seconds').textContent = pad(Math.floor((diff % 60000)    / 1000));
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    /* 5. FADE-IN ON SCROLL */
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const delay = parseFloat(entry.target.style.transitionDelay) || 0;
+          setTimeout(() => entry.target.classList.add('visible'), delay * 1000);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    /* 6. MEAL PREFERENCE pill toggle */
+    function updateMealLabels() {
+      document.querySelectorAll('.meal-option').forEach(opt => {
+        const inp   = opt.querySelector('input');
+        const label = opt.querySelector('.meal-label');
+        if (inp.checked) {
+          label.style.borderColor = '#FDFD96';
+          label.style.color       = '#FDFD96';
+          label.style.background  = 'rgba(253,253,150,0.12)';
+        } else {
+          label.style.borderColor = 'rgba(255,255,255,0.2)';
+          label.style.color       = 'rgba(255,255,255,0.7)';
+          label.style.background  = '';
+        }
+      });
+    }
+    document.querySelectorAll('.meal-option input[type="radio"]').forEach(r => r.addEventListener('change', updateMealLabels));
+    updateMealLabels();
+
+    /* 7. RSVP FORM — validation & success */
+    const form       = document.getElementById('rsvp-form');
+    const formWrap   = document.getElementById('rsvp-form-wrap');
+    const successMsg = document.getElementById('rsvp-success');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      let valid = true;
+
+      form.querySelectorAll('.error-msg').forEach(el => el.classList.add('hidden'));
+      form.querySelectorAll('.form-input').forEach(el => el.style.borderColor = '');
+
+      const nameEl = document.getElementById('fullname');
+      if (!nameEl.value.trim()) { showError(nameEl); valid = false; }
+
+      const emailEl = document.getElementById('email');
+      if (!emailEl.value.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value)) { showError(emailEl); valid = false; }
+
+      const attendanceEl = document.getElementById('attendance');
+      if (!attendanceEl.value) { showError(attendanceEl); valid = false; }
+
+      if (!valid) return;
+
+      const btn = form.querySelector('button[type="submit"]');
+      btn.textContent = 'Sending…';
+      btn.disabled = true;
+      btn.style.opacity = '0.7';
+
+      setTimeout(() => {
+        formWrap.style.opacity = '0';
+        formWrap.style.transform = 'translateY(-16px)';
+        formWrap.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+        setTimeout(() => {
+          formWrap.classList.add('hidden');
+          successMsg.classList.remove('hidden');
+          successMsg.classList.add('visible');
+        }, 400);
+      }, 1000);
+    });
+
+    function showError(inputEl) {
+      inputEl.style.borderColor = '#FDFD96';
+      const err = inputEl.parentElement.querySelector('.error-msg')
+                || inputEl.closest('div').querySelector('.error-msg');
+      if (err) err.classList.remove('hidden');
+    }
+
+    /* 8. Hero fade-in on load */
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('#hero .fade-up').forEach((el, i) => {
+        setTimeout(() => el.classList.add('visible'), 300 + i * 150);
+      });
+    });
+  </script>
+
+</body>
+</html>
